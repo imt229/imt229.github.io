@@ -1,0 +1,181 @@
+  
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>LA Crime Map</title>
+		<link href="./resources/css/crimeMapTwo.css" type="text/css" rel="stylesheet">
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+		<link rel="stylesheet" href="https://js.arcgis.com/4.15/esri/themes/light/main.css">
+		<script src="https://js.arcgis.com/4.15/"></script>
+		<link rel = "stylesheet" href = "http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css">
+		<link href="https://fonts.googleapis.com/css2?family=Oxygen&display=swap" rel="stylesheet">
+		<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+		
+	</head>
+
+	
+
+	<body>
+	
+
+		<div id="viewDiv">
+		</div>
+
+		<br/>
+		<div class = "sidebar">
+
+			<div id = "legend" class = "wrapper">
+				<div class = "optionHeaderWrapper" id = "legendHeaderWrapper"> 
+					<h2 class = "optionTitle"> <i class="fa fa-arrow-left" id = "legendArrow"></i> Legend </h2> 
+				</div>
+				<br/>
+				<div class = "content" id = "legendContent">
+					<h6 id = totalCount>Total Crime Count: Calculating</h6>
+					<div class = "legendRangeWrapper"><div class = "legendColor" id = "rangeOneColor"></div> <p class = "range" id = "rangeOneNumbers"> Calculating </p></div>
+					<div class = "legendRangeWrapper"><div class = "legendColor" id = "rangeTwoColor"></div> <p class = "range" id = "rangeTwoNumbers"> Calculating </p></div>
+					<div class = "legendRangeWrapper"><div class = "legendColor" id = "rangeThreeColor"></div> <p class = "range" id = "rangeThreeNumbers"> Calculating </p></div>
+					<div class = "legendRangeWrapper"><div class = "legendColor" id = "rangeFourColor"></div> <p class = "range" id = "rangeFourNumbers"> Calculating </p></div>
+					<div class = "legendRangeWrapper"><div class = "legendColor" id = "rangeFiveColor"></div> <p class = "range" id = "rangeFiveNumbers"> Calculating </p></div>
+				</div>
+			</div>
+
+
+			<div id = "mapType" class = "wrapper">
+				<div class = "optionHeaderWrapper" id = "mapTypeHeaderWrapper"> 
+					<h2 class = "optionTitle"> <i class="fa fa-arrow-left" id = "mapTypeArrow"></i> Map Type </h2> 
+					<h2 class = "currentlySelected" id = "mapTypeSelected"> Area Map </h2> 
+				</div>
+				<br/>
+				<form class = "content" id = "mapOptions">
+
+					<div class = "radioWrapper">
+						<input type = "radio" id = "area"  name = "mapType" value = "Area Map" checked> 
+						<label for = "area"> Area Map </label> <br/> 
+					</div>
+					<div class = "radioWrapper">
+						<input type = "radio" id = "heat"  name = "mapType" value = "Heat Map"> 
+						<label for = "heat"> Heat Map </label> <br/> 
+					</div>
+				</form>
+			</div>
+
+			<div id = "dateSelection" class = "wrapper">
+				<div class = "optionHeaderWrapper" id = "dateHeaderWrapper"> 
+					<h2 class = "optionTitle"> <i class="fa fa-arrow-left" id = "dateArrow"></i> Date Range </h2> 
+				</div>
+				<br/>
+				<div class = "content" id = "dateContent">
+					<h6>Start Date</h6>
+					<select name="startMonth" id="startMonth" class = "startDate">
+						<option value="January" selected = "selected">January</option>
+						<option value="February">February</option>
+						<option value="March">March</option>
+						<option value="April">April</option>
+						<option value="May">May</option>
+						<option value="June">June</option>
+						<option value="July">July</option>
+						<option value="August">August</option>
+						<option value="September">September</option>
+					</select>
+					<select name="startYear" id="startYear" class = "startDate">
+						<option value="2010">2010</option>
+						<option value="2011">2011</option>
+						<option value="2012">2012</option>
+						<option value="2013">2013</option>
+						<option value="2014">2014</option>
+						<option value="2015">2015</option>
+						<option value="2016">2016</option>
+						<option value="2017">2017</option>
+						<option value="2018">2018</option>
+						<option value="2019">2019</option>
+						<option value="2020" selected = "selected">2020</option>
+					</select>
+					<br/>
+
+					<h6>End Date</h6>
+					<select name="endMonth" id = "endMonth" class = "endDate">
+						<option value="January">January</option>
+						<option value="February">February</option>
+						<option value="March">March</option>
+						<option value="April">April</option>
+						<option value="May">May</option>
+						<option value="June">June</option>
+						<option value="July">July</option>
+						<option value="August">August</option>
+						<option value="September" selected = "selected">September</option>
+						<option value="October">October</option>
+						<option value="November">November</option>
+						<option value="December">December</option>
+					</select>
+					<select name="endMonth" id = "endYear" class = "endDate">
+						<option value="2020" selected = "selected">2020</option>
+					</select>
+					<br/>
+				</div>
+			</div>
+
+			<div id = "crimeType" class = "wrapper">
+				<div class = "optionHeaderWrapper" id = "crimeHeaderWrapper"> 
+					<h2 class = "optionTitle"> <i class="fa fa-arrow-left" id = "crimeArrow"></i> Crime Type </h2> 
+					<h2 class = "currentlySelected" id = "crimeSelected"> All </h2> 
+				</div>
+				<br/>
+				<form class = "content" id = "crimeOptions">
+
+					<div class = "radioWrapper">
+					<input type = "radio" id = "all"  name = "crimeType" value = "all" checked> 
+					<label for = "all"> All </label> <br/> 
+					</div>
+					<div class = "radioWrapper">
+					<input type = "radio" id = "assault"  name = "crimeType" value = "assault">
+					<label for = "assault"> Assault Related </label> <br/>
+					</div>
+					<div class = "radioWrapper">
+					<input type = "radio" id = "domestic"  name = "crimeType" value = "domestic">
+					<label for = "domestic"> Domestic </label> <br/>
+					</div>
+					<div class = "radioWrapper">
+					<input type = "radio" id = "fraud"  name = "crimeType" value = "fraud">
+					<label for = "fraud"> Fraud/Money Related </label> <br/>
+					</div>
+					<div class = "radioWrapper">
+					<input type = "radio" id = "homicide"  name = "crimeType" value = "homicide">
+					<label for = "homicide"> Homicide </label> <br/>
+					</div>
+					<div class = "radioWrapper">
+					<input type = "radio" id = "Kidnapping"  name = "crimeType" value = "kidnapping">
+					<label for = "kidnapping"> Kidnapping </label> <br/>
+					</div>
+					<div class = "radioWrapper">
+					<input type = "radio" id = "misc"  name = "crimeType" value = "miscellaneous">
+					<label for = "misc"> Miscellaneous </label> <br/>
+					</div>
+					<div class = "radioWrapper">
+					<input type = "radio" id = "property"  name = "crimeType" value = "property">
+					<label for = "property"> Property Damage </label> <br/>
+					</div>
+					<div class = "radioWrapper">
+					<input type = "radio" id = "sexRelated"  name = "crimeType" value = "sexual acts">
+					<label for = "sexRelated"> Sexual Acts </label> <br/>
+					</div>
+					<div class = "radioWrapper">
+					<input type = "radio" id = "sexualAssault"  name = "crimeType" value = "sexual assault">
+					<label for = "sexualAssault"> Sexual Assualt </label> <br/>
+					</div>
+					<div class = "radioWrapper">
+					<input type = "radio" id = "theft"  name = "crimeType" value = "theft">
+					<label for = "theft"> Theft </label> <br/>
+					</div>
+				</form>
+			</div>
+			
+		</div> 
+			
+
+		
+		<script type="text/javascript" src="./resources/javascript/crimeMapTwo.js"> </script>
+	</body>
+
+</html>
